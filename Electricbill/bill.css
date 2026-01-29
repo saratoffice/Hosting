@@ -1,0 +1,97 @@
+ /* Responsive layout */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+            .form-title {
+                font-size: 22px;
+            }
+            select, input, button {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-title {
+                font-size: 20px;
+            }
+            select, input, button {
+                font-size: 12px;
+            }
+        }
+
+        /* Form container */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+    .form-row label {
+    margin-left: 50px;     /* Align label with input box */
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form-row input,
+.form-row select {
+    width: 80%;                /* Reduced width by 20% */
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-left: 50px;         /* Move all input/select boxes 20px to the right */
+}
+/* Remove the calendar icon and add a blue dropdown arrow */
+.select-with-icon {
+    background-image: url("data:image/svg+xml,%3Csvg fill='blue' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");  /* Blue dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px 20px;
+    padding-right: 35px; /* Leave space for the icon */
+    appearance: none;    /* Hide default dropdown arrow */
+}
+
+
+
+
+/* Align Download button to the right */
+.form-row button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;  /* Right-align within the flex column */
+}
+      .form-row button:hover {
+    background-color: #007BFF;  /* Blue on hover */
+}
+ 
+ .form-row button:active {
+     transform: translateY(1px); /* Press effect */
+ }
