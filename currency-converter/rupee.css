@@ -1,0 +1,172 @@
+ body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: #f5f5f5;
+    }
+
+    .converter-container {
+      max-width: 600px;
+      background: #eaf4f4;
+      box-shadow: 0 8px 50px -8px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 32px auto;
+      color: #000;
+    }
+
+  .converter-container h2 {
+  margin: 0 0 40px;
+  font-size: 30px;
+  font-weight: normal;
+  position: relative;
+  text-align: center;
+}
+
+
+    .converter-container h2::after {
+    content: "";
+    height: 4px;
+    width: 50%;
+    background: #ef233c;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -6px;
+  }
+
+
+    .input-amount-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .input-amount-container input {
+      width: 60%;
+      padding: 12px 16px;
+      font-size: 30px;
+      font-weight: bold;
+      border-radius: 8px;
+      border: 1px solid #1d3461;
+      margin: 0 auto;
+    }
+
+    .currency-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .swap-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #1d3461;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      background: #fff;
+      z-index: 2;
+    }
+
+    .dropdown-container {
+      position: relative;
+      width: 60%;
+      margin: 0 auto;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .input-container input {
+      width: 100%;
+      padding: 12px 16px 12px 48px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #d9d9d9;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+    }
+
+    .input-flag {
+      height: 32px;
+      position: absolute;
+      left: 8px;
+      pointer-events: none;
+    }
+
+    .options {
+      max-height: 500px;
+      overflow-y: auto;
+      box-shadow: 0 8px 40px -8px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 54px;
+      opacity: 0;
+      pointer-events: none;
+      background: #fff;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .options.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .option {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .option .flag img {
+      height: 32px;
+    }
+
+    .result {
+      width: 60%;
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+      padding: 30px;
+      background: #1d3461;
+      color: #fff;
+      border-radius: 8px;
+      margin: 30px auto 0;
+    }
+
+    .result-currency {
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+    .currency-input {
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .swap-btn {
+        right: 10%;
+      }
+      
+      .dropdown-container,
+      .input-amount-container input,
+      .result {
+        width: 80%;
+      }
+    }
