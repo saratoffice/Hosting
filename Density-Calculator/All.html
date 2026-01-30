@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fuel Density & VCF Calculator</title>
+
+<style>
+/* ===============================
+   SAFE WRAPPER (DIVI FRIENDLY)
+================================ */
+.fuel-calculator {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.fuel-calculator .fuel-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1100px;
+  margin: auto;
+  flex-wrap: wrap; /* responsive */
+}
+
+/* ===============================
+   BOX
+================================ */
+.fuel-calculator .box {
+  flex: 1 1 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+
+/* ===============================
+   HEADINGS
+================================ */
+.fuel-calculator h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+/* ===============================
+   FORM ELEMENTS
+================================ */
+.fuel-calculator label {
+  font-weight: bold;
+  display: block;
+  margin-top: 12px;
+}
+
+.fuel-calculator input,
+.fuel-calculator select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+.fuel-calculator button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ===============================
+   RESULT & NOTE
+================================ */
+.fuel-calculator .result {
+  margin-top: 15px;
+  background: #eef6ff;
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.fuel-calculator .note {
+  font-size: 12px;
+  color: #555;
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* ===============================
+   MOBILE FIX
+================================ */
+@media (max-width: 600px) {
+  .fuel-calculator {
+    padding: 12px;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="fuel-calculator">
+  <div class="fuel-container">
+
+<!-- ===== FORWARD CALCULATOR ===== -->
+<div class="box">
+<h2>15 °C → Observed Temperature</h2>
+
+<label>Fuel Type</label>
+<select id="fuel1">
+  <option value="0.00083">Diesel (HSD) — 820–860 kg/m³</option>
+  <option value="0.00095">Petrol (MS) — 710–780 kg/m³</option>
+  <option value="0.00099">Kerosene — 780–820 kg/m³</option>
+</select>
+
+<label>Density @ 15 °C (kg/m³)</label>
+<input type="number" id="rho15" step="0.01" placeholder="e.g. 850">
+
+<label>Observed Temperature (°C)</label>
+<input type="number" id="temp1" step="0.1" placeholder="e.g. 30">
+
+<label>Observed Volume (Litres) – Optional</label>
+<input type="number" id="vol1" step="0.01">
+
+<button onclick="forwardCalc()">Calculate</button>
+<div class="result" id="out1" style="display:none;"></div>
+</div>
+
+<!-- ===== REVERSE CALCULATOR ===== -->
+<div class="box">
+<h2>Observed Temperature → 15 °C</h2>
+
+<label>Fuel Type</label>
+<select id="fuel2">
+  <option value="0.00083">Diesel (HSD) — 820–860 kg/m³</option>
+  <option value="0.00095">Petrol (MS) — 710–780 kg/m³</option>
+  <option value="0.00099">Kerosene — 780–820 kg/m³</option>
+</select>
+
+<label>Observed Density (kg/m³)</label>
+<input type="number" id="rhoT" step="0.01" placeholder="e.g. 839">
+
+<label>Observed Temperature (°C)</label>
+<input type="number" id="temp2" step="0.1" placeholder="e.g. 30">
+
+<label>Observed Volume (Litres) – Optional</label>
+<input type="number" id="vol2" step="0.01">
+
+<button onclick="reverseCalc()">Calculate</button>
+<div class="result" id="out2" style="display:none;"></div>
+</div>
+
+</div>
+
+<div class="note">
+Formula-based calculator derived from API MPMS Chapter 11.1.
+For custody transfer and billing, official API/ASTM tables must be used.
+</div>
+
+<script>
+function forwardCalc(){
+  const rho15=parseFloat(document.getElementById("rho15").value);
+  const T=parseFloat(document.getElementById("temp1").value);
+  const alpha=parseFloat(document.getElementById("fuel1").value);
+  const V=document.getElementById("vol1").value;
+
+  if(isNaN(rho15)||isNaN(T)){
+    alert("Enter Density @15°C and Temperature");
+    return;
+  }
+
+  const rhoT=rho15/(1+alpha*(T-15));
+  const VCF=rhoT/rho15;
+
+  let html=`<b>Density @ ${T} °C:</b> ${rhoT.toFixed(2)} kg/m³<br>
+            <b>VCF:</b> ${VCF.toFixed(5)}`;
+
+  if(V!==""){
+    html+=`<br><b>Volume @ 15 °C:</b> ${(parseFloat(V)*VCF).toFixed(2)} litres`;
+  }
+
+  out1.style.display="block";
+  out1.innerHTML=html;
+}
+
+function reverseCalc(){
+  const rhoT=parseFloat(document.getElementById("rhoT").value);
+  const T=parseFloat(document.getElementById("temp2").value);
+  const alpha=parseFloat(document.getElementById("fuel2").value);
+  const V=document.getElementById("vol2").value;
+
+  if(isNaN(rhoT)||isNaN(T)){
+    alert("Enter Observed Density and Temperature");
+    return;
+  }
+
+  const rho15=rhoT*(1+alpha*(T-15));
+  const VCF=rhoT/rho15;
+
+  let html=`<b>Density @ 15 °C:</b> ${rho15.toFixed(2)} kg/m³<br>
+            <b>VCF:</b> ${VCF.toFixed(5)}`;
+
+  if(V!==""){
+    html+=`<br><b>Volume @ 15 °C:</b> ${(parseFloat(V)*VCF).toFixed(2)} litres`;
+  }
+
+  out2.style.display="block";
+  out2.innerHTML=html;
+}
+</script>
+
+</body>
+</html>
