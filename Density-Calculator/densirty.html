@@ -1,0 +1,57 @@
+<div class="fuel-calculator">
+  <div class="fuel-container">
+
+<!-- ===== FORWARD CALCULATOR ===== -->
+<div class="box">
+<h2>15 °C → Observed Temperature</h2>
+
+<label>Fuel Type</label>
+<select id="fuel1">
+  <option value="0.00083">Diesel (HSD) — 820–860 kg/m³</option>
+  <option value="0.00095">Petrol (MS) — 710–780 kg/m³</option>
+  <option value="0.00099">Kerosene — 780–820 kg/m³</option>
+</select>
+
+<label>Density @ 15 °C (kg/m³)</label>
+<input type="number" id="rho15" step="0.01" placeholder="e.g. 850">
+
+<label>Observed Temperature (°C)</label>
+<input type="number" id="temp1" step="0.1" placeholder="e.g. 30">
+
+<label>Observed Volume (Litres) – Optional</label>
+<input type="number" id="vol1" step="0.01">
+
+<button onclick="forwardCalc()">Calculate</button>
+<div class="result" id="out1" style="display:none;"></div>
+</div>
+
+<!-- ===== REVERSE CALCULATOR ===== -->
+<div class="box">
+<h2>Observed Temperature → 15 °C</h2>
+
+<label>Fuel Type</label>
+<select id="fuel2">
+  <option value="0.00083">Diesel (HSD) — 820–860 kg/m³</option>
+  <option value="0.00095">Petrol (MS) — 710–780 kg/m³</option>
+  <option value="0.00099">Kerosene — 780–820 kg/m³</option>
+</select>
+
+<label>Observed Density (kg/m³)</label>
+<input type="number" id="rhoT" step="0.01" placeholder="e.g. 839">
+
+<label>Observed Temperature (°C)</label>
+<input type="number" id="temp2" step="0.1" placeholder="e.g. 30">
+
+<label>Observed Volume (Litres) – Optional</label>
+<input type="number" id="vol2" step="0.01">
+
+<button onclick="reverseCalc()">Calculate</button>
+<div class="result" id="out2" style="display:none;"></div>
+</div>
+
+</div>
+
+<div class="note">
+Formula-based calculator derived from API MPMS Chapter 11.1.
+For custody transfer and billing, official API/ASTM tables must be used.
+</div>
