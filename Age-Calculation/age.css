@@ -1,0 +1,74 @@
+/* Hidden elements */
+    #comments, #respond, .comment-form, .title-wrap, .comments-title, .no-message {
+      display: none !important;
+    }
+
+    /* Calculator container */
+    .age-calculator {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+    }
+
+    /* Title styling */
+    .age-calculator h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    /* Form elements */
+    .age-calculator label {
+      display: block;
+      margin-bottom: 10px;
+      margin-left: 20%;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .age-calculator input[type="date"],
+    .age-calculator input[type="submit"] {
+      width: 60%;
+      margin-left: 20%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    /* Blue calendar icon */
+    .age-calculator input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(40%) sepia(13%) saturate(3207%) hue-rotate(190deg);
+      opacity: 0.9;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* Submit button */
+    .age-calculator input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+      border: none;
+    }
+
+    .age-calculator input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    /* Result display - Modified section */
+    #ageResultText {
+      margin: 30px 0;
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+    }
