@@ -1,0 +1,278 @@
+/* =====================================================
+   HIDE UNWANTED BLOG / THEME ELEMENTS
+===================================================== */
+#comments,
+#respond,
+.comment-form,
+.title-wrap,
+.comments-title,
+.no-message {
+  display: none !important;
+}
+
+/* =====================================================
+   RESET & GLOBAL
+===================================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Arial, sans-serif;
+  background: #f0f2f5;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   WRAPPER
+===================================================== */
+.password-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+.password-generator-container {
+  width: 100%;
+  max-width: 520px;
+  background-color: #ffffff;
+  padding: 28px 24px;
+  border-radius: 14px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+.password-generator-container h1 {
+  text-align: center;
+  color: #333333;
+  margin-bottom: 26px;
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 700;
+}
+
+/* =====================================================
+   PASSWORD DISPLAY
+===================================================== */
+.password-display {
+  background-color: #f7f7f7;
+  padding: 14px 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.password-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(14px, 4vw, 18px);
+  color: #333333;
+  word-break: break-all;
+}
+
+/* =====================================================
+   COPY BUTTON
+===================================================== */
+.copy-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.copy-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* =====================================================
+   STRENGTH METER
+===================================================== */
+.strength-text {
+  text-align: right;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #444;
+}
+
+.strength-meter {
+  height: 10px;
+  background-color: #dddddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.strength-meter-fill {
+  height: 100%;
+  width: 30%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  transition: width 0.3s ease;
+}
+
+/* =====================================================
+   OPTIONS
+===================================================== */
+.password-options {
+  margin-bottom: 24px;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.option-item label {
+  font-size: 15px;
+  color: #555555;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =====================================================
+   LENGTH SLIDER
+===================================================== */
+.length-value {
+  font-weight: 700;
+  color: #333333;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 12px 0;
+  height: 6px;
+  background: #dddddd;
+  border-radius: 3px;
+  outline: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #003049;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #003049;
+  cursor: pointer;
+}
+
+/* =====================================================
+   CUSTOM CHECKBOX
+===================================================== */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #003049;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #003049;
+  border-color: #003049;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 6px;
+  border: 2px solid #ffffff;
+  border-top: none;
+  border-right: none;
+  transform: translate(-50%, -60%) rotate(-45deg);
+}
+
+/* =====================================================
+   GENERATE BUTTON
+===================================================== */
+.generate-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #003049;
+  color: #ffffff;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+  background-color: #001520;
+}
+
+/* =====================================================
+   TOOLTIP
+===================================================== */
+.tooltip {
+  position: absolute;
+  right: 0;
+  bottom: 110%;
+  background-color: #333333;
+  padding: 6px 10px;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  white-space: nowrap;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+/* =====================================================
+   SMALL SCREENS (≤ 480px)
+===================================================== */
+@media (max-width: 480px) {
+  .password-generator-container {
+    padding: 22px 18px;
+  }
+
+  .option-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .strength-text {
+    text-align: left;
+  }
+}
