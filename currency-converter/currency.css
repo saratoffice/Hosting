@@ -1,172 +1,235 @@
- body {
-      margin: 0;
-      font-family: "Roboto", sans-serif;
-      background: #f5f5f5;
-    }
+/* =====================================================
+   HIDE UNWANTED BLOG / THEME ELEMENTS
+===================================================== */
+#comments,
+#respond,
+.comment-form,
+.title-wrap,
+.comments-title,
+.no-message {
+  display: none !important;
+}
 
-    .converter-container {
-      max-width: 600px;
-      background: #eaf4f4;
-      box-shadow: 0 8px 50px -8px rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      border-radius: 8px;
-      margin: 32px auto;
-      color: #000;
-    }
+/* =====================================================
+   GLOBAL
+===================================================== */
+body {
+  margin: 0;
+  font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f5f5f5;
+}
 
-  .converter-container h2 {
-  margin: 0 0 40px;
-  font-size: 30px;
-  font-weight: normal;
+/* =====================================================
+   CONVERTER CONTAINER
+===================================================== */
+.converter-container {
+  max-width: 600px;
+  width: calc(100% - 32px);
+  background: #eaf4f4;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  padding: 24px 20px;
+  border-radius: 12px;
+  margin: 32px auto;
+  color: #000;
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+.converter-container h2 {
+  margin: 0 0 32px;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 500;
   position: relative;
   text-align: center;
 }
 
+.converter-container h2::after {
+  content: "";
+  height: 4px;
+  width: 50%;
+  background: #ef233c;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -8px;
+  border-radius: 2px;
+}
 
-    .converter-container h2::after {
-    content: "";
-    height: 4px;
-    width: 50%;
-    background: #ef233c;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -6px;
+/* =====================================================
+   AMOUNT INPUT
+===================================================== */
+.input-amount-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.input-amount-container input {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 16px;
+  font-size: clamp(20px, 5vw, 30px);
+  font-weight: 700;
+  border-radius: 10px;
+  border: 2px solid #1d3461;
+  text-align: center;
+}
+
+/* =====================================================
+   CURRENCY SECTION
+===================================================== */
+.currency-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+}
+
+/* =====================================================
+   SWAP BUTTON
+===================================================== */
+.swap-btn {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #1d3461;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: #fff;
+  z-index: 5;
+  transition: transform 0.2s ease;
+}
+
+.swap-btn:hover {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* =====================================================
+   DROPDOWN INPUT
+===================================================== */
+.dropdown-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 12px 16px 12px 48px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  cursor: pointer;
+}
+
+/* Flag */
+.input-flag {
+  height: 28px;
+  position: absolute;
+  left: 10px;
+  pointer-events: none;
+}
+
+/* =====================================================
+   DROPDOWN OPTIONS
+===================================================== */
+.options {
+  max-height: 320px;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 56px;
+  opacity: 0;
+  pointer-events: none;
+  background: #ffffff;
+  z-index: 20;
+  transition: opacity 0.25s ease;
+}
+
+.options.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.option {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.option:hover {
+  background: #f3f3f3;
+}
+
+.option .flag img {
+  height: 28px;
+}
+
+/* =====================================================
+   RESULT
+===================================================== */
+.result {
+  width: 100%;
+  max-width: 360px;
+  font-size: clamp(26px, 6vw, 40px);
+  font-weight: 700;
+  text-align: center;
+  padding: 26px 20px;
+  background: #1d3461;
+  color: #ffffff;
+  border-radius: 12px;
+  margin: 30px auto 0;
+}
+
+.result-currency {
+  font-size: clamp(16px, 4vw, 24px);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 6px;
+}
+
+.currency-input {
+  cursor: pointer;
+}
+
+/* =====================================================
+   SMALL SCREENS (≤ 480px)
+===================================================== */
+@media (max-width: 480px) {
+  .converter-container {
+    padding: 20px 16px;
   }
 
+  .swap-btn {
+    right: 6px;
+  }
 
-    .input-amount-container {
-      display: flex;
-      margin-bottom: 20px;
-    }
-
-    .input-amount-container input {
-      width: 60%;
-      padding: 12px 16px;
-      font-size: 30px;
-      font-weight: bold;
-      border-radius: 8px;
-      border: 1px solid #1d3461;
-      margin: 0 auto;
-    }
-
-    .currency-section {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-    }
-
-    .swap-btn {
-      width: 40px;
-      height: 40px;
-      border: 1px solid #1d3461;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      right: 10%;
-      transform: translateY(-50%);
-      background: #fff;
-      z-index: 2;
-    }
-
-    .dropdown-container {
-      position: relative;
-      width: 60%;
-      margin: 0 auto;
-    }
-
-    .input-container {
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-
-    .input-container input {
-      width: 100%;
-      padding: 12px 16px 12px 48px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #d9d9d9;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 20px;
-    }
-
-    .input-flag {
-      height: 32px;
-      position: absolute;
-      left: 8px;
-      pointer-events: none;
-    }
-
-    .options {
-      max-height: 500px;
-      overflow-y: auto;
-      box-shadow: 0 8px 40px -8px rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 54px;
-      opacity: 0;
-      pointer-events: none;
-      background: #fff;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .options.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .option {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .option .flag img {
-      height: 32px;
-    }
-
-    .result {
-      width: 60%;
-      font-size: 40px;
-      font-weight: bold;
-      text-align: center;
-      padding: 30px;
-      background: #1d3461;
-      color: #fff;
-      border-radius: 8px;
-      margin: 30px auto 0;
-    }
-
-    .result-currency {
-      font-size: 24px;
-      text-transform: uppercase;
-    }
-    .currency-input {
-      cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-      .swap-btn {
-        right: 10%;
-      }
-      
-      .dropdown-container,
-      .input-amount-container input,
-      .result {
-        width: 80%;
-      }
-    }
+  .options {
+    max-height: 240px;
+  }
+}
