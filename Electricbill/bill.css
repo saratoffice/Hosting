@@ -1,24 +1,14 @@
- /* Responsive layout */
-        @media (max-width: 768px) {
-            .form-container {
-                padding: 15px;
-            }
-            .form-title {
-                font-size: 22px;
-            }
-            select, input, button {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .form-title {
-                font-size: 20px;
-            }
-            select, input, button {
-                font-size: 12px;
-            }
-        }
+/* =====================================================
+   HIDE UNWANTED BLOG / THEME ELEMENTS
+===================================================== */
+#comments,
+#respond,
+.comment-form,
+.title-wrap,
+.comments-title,
+.no-message {
+  display: none !important;
+}
 
         /* Form container */
         .form-container {
@@ -95,3 +85,24 @@
  .form-row button:active {
      transform: translateY(1px); /* Press effect */
  }
+/* Responsive layout */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+            .form-title {
+                font-size: 22px;
+            }
+            select, input, button {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-title {
+                font-size: 20px;
+            }
+            select, input, button {
+                font-size: 12px;
+            }
+        }
