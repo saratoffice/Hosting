@@ -1,74 +1,155 @@
-/* Hidden elements */
-    #comments, #respond, .comment-form, .title-wrap, .comments-title, .no-message {
-      display: none !important;
-    }
+/* =====================================================
+   HIDE UNWANTED BLOGSPOT ELEMENTS
+===================================================== */
+#comments,
+#respond,
+.comment-form,
+.title-wrap,
+.comments-title,
+.no-message {
+  display: none !important;
+}
 
-    /* Calculator container */
-    .age-calculator {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      max-width: 600px;
-      margin: 20px auto;
-      border: 1px solid #ddd;
-    }
+/* =====================================================
+   AGE CALCULATOR CONTAINER
+===================================================== */
+.age-calculator {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 24px 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 30px auto;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
 
-    /* Title styling */
-    .age-calculator h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 25px;
-      font-size: 26px;
-    }
+/* =====================================================
+   TITLE
+===================================================== */
+.age-calculator h2 {
+  text-align: center;
+  color: #333333;
+  margin-bottom: 28px;
+  font-size: 26px;
+  font-weight: 700;
+}
 
-    /* Form elements */
-    .age-calculator label {
-      display: block;
-      margin-bottom: 10px;
-      margin-left: 20%;
-      font-weight: 600;
-      color: #444;
-    }
+/* =====================================================
+   LABELS
+===================================================== */
+.age-calculator label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444444;
+  font-size: 15px;
+}
 
-    .age-calculator input[type="date"],
-    .age-calculator input[type="submit"] {
-      width: 60%;
-      margin-left: 20%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      font-size: 16px;
-    }
+/* =====================================================
+   INPUT FIELDS
+===================================================== */
+.age-calculator input[type="date"],
+.age-calculator input[type="submit"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 2px solid #dddddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-    /* Blue calendar icon */
-    .age-calculator input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(40%) sepia(13%) saturate(3207%) hue-rotate(190deg);
-      opacity: 0.9;
-      cursor: pointer;
-      padding: 4px;
-    }
+/* Focus state */
+.age-calculator input[type="date"]:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
 
-    /* Submit button */
-    .age-calculator input[type="submit"] {
-      background-color: #4CAF50;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 20px;
-      border: none;
-    }
+/* =====================================================
+   CALENDAR ICON COLOR (WebKit browsers)
+===================================================== */
+.age-calculator input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(40%) sepia(15%) saturate(3000%) hue-rotate(190deg);
+  opacity: 0.9;
+  cursor: pointer;
+}
 
-    .age-calculator input[type="submit"]:hover {
-      background-color: #45a049;
-    }
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+.age-calculator input[type="submit"] {
+  background-color: #4caf50;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-    /* Result display - Modified section */
-    #ageResultText {
-      margin: 30px 0;
-      font-size: 18px;
-      color: #333;
-      text-align: center;
-    }
+.age-calculator input[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+/* =====================================================
+   RESULT TEXT
+===================================================== */
+#ageResultText {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #333333;
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* =====================================================
+   TABLET RESPONSIVE (≤ 768px)
+===================================================== */
+@media (max-width: 768px) {
+  .age-calculator {
+    max-width: 90%;
+    padding: 20px 18px;
+  }
+
+  .age-calculator h2 {
+    font-size: 22px;
+  }
+
+  #ageResultText {
+    font-size: 17px;
+  }
+}
+
+/* =====================================================
+   MOBILE RESPONSIVE (≤ 480px)
+===================================================== */
+@media (max-width: 480px) {
+  .age-calculator {
+    padding: 18px 16px;
+    margin: 20px auto;
+  }
+
+  .age-calculator h2 {
+    font-size: 20px;
+    margin-bottom: 22px;
+  }
+
+  .age-calculator label {
+    font-size: 14px;
+  }
+
+  .age-calculator input[type="date"],
+  .age-calculator input[type="submit"] {
+    font-size: 15px;
+    padding: 11px 12px;
+  }
+
+  #ageResultText {
+    font-size: 16px;
+  }
+}
