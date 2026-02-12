@@ -18,7 +18,7 @@
     border-radius: 8px;
   }
 
-  h2 {
+.bmr-calculator h2 {
     text-align: center;
     background: #4CAF50;
     color: #fff;
@@ -27,7 +27,7 @@
     font-size: 24px;
   }
 
-  h3 {
+.bmr-calculator h3 {
     font-size: 16px;
     color: #666;
     margin-bottom: 8px;
