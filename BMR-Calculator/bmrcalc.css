@@ -1,87 +1,87 @@
+.bmr-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
 
-  .bmr-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #f5f5f5;
-  }
+.bmr-wrapper .bmr-calculator {
+  max-width: 600px;
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  padding: 24px;
+  box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  border-radius: 8px;
+}
 
-  .bmr-calculator {
-    max-width: 600px;
-    width: 100%;
-    font-family: "Roboto", sans-serif;
-    padding: 24px;
-    box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 0.3);
-    background: #fff;
-    border-radius: 8px;
-  }
+.bmr-wrapper h2 {
+  text-align: center;
+  background: #4CAF50;
+  color: #fff;
+  margin: -24px -24px 20px;
+  padding: 20px;
+  font-size: 24px;
+}
 
-.bmr-calculator h2 {
-    text-align: center;
-    background: #4CAF50;
-    color: #fff;
-    margin: -24px -24px 20px;
-    padding: 20px;
-    font-size: 24px;
-  }
+.bmr-wrapper h3 {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 8px;
+}
 
-.bmr-calculator h3 {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 8px;
-  }
+.bmr-wrapper .input-group {
+  margin: 15px 0;
+}
 
-  .input-group {
-    margin: 15px 0;
-  }
+.bmr-wrapper .input-group select,
+.bmr-wrapper .input-group input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
 
-  .input-group select,
-  .input-group input {
-    width: 100%;
-    padding: 10px 16px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-  }
+.bmr-wrapper .input-group input:focus,
+.bmr-wrapper .input-group select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
 
-  .input-group input:focus,
-  .input-group select:focus {
-    outline: none;
-    border-color: #4CAF50;
-  }
+.bmr-wrapper .input-row {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
 
-  .input-row {
-    display: flex;
-    gap: 10px;
-    margin: 15px 0;
-  }
+.bmr-wrapper .input-row .input-group {
+  flex: 1;
+}
 
-  .input-row .input-group {
-    flex: 1;
-  }
+.bmr-wrapper .gender-options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 10px 0;
+}
 
-  .gender-options {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin: 10px 0;
-  }
+.bmr-wrapper .gender-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
 
-  .gender-option {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-  }
-
- .gender-option input[type="radio"] {
+.bmr-wrapper .gender-option input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 5px;
+  width: 20px;
   height: 20px;
   border: 2px solid #333;
   border-radius: 50%;
@@ -90,13 +90,18 @@
   transition: all 0.3s ease;
   display: inline-block;
   vertical-align: middle;
+  margin: 0;
 }
 
-.gender-option input[type="radio"]:checked::before {
+.bmr-wrapper .gender-option input[type="radio"]:checked {
+  border-color: #4CAF50;
+}
+
+.bmr-wrapper .gender-option input[type="radio"]:checked::before {
   content: '';
   position: absolute;
-  width: 14px;          /* increased size */
-  height: 14px;
+  width: 12px;
+  height: 12px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -104,47 +109,46 @@
   border-radius: 50%;
 }
 
+.bmr-wrapper .result {
+  text-align: center;
+  margin-top: 25px;
+}
 
-  .result {
-    text-align: center;
-    margin-top: 25px;
-  }
+.bmr-wrapper .calculate-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 
-  .calculate-btn {
-    width: 100%;
-    padding: 12px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
+.bmr-wrapper .calculate-btn:hover {
+  background: #45a049;
+  transform: scale(1.02);
+}
 
-  .calculate-btn:hover {
-    background: #45a049;
-    transform: scale(1.02);
-  }
+.bmr-wrapper .calories {
+  display: block;
+  font-size: 32px;
+  color: #333;
+  margin: 15px 0;
+  font-weight: bold;
+}
 
-  .calories {
-    display: block;
-    font-size: 32px;
-    color: #333;
-    margin: 15px 0;
-    font-weight: bold;
-  }
+.bmr-wrapper .error-message {
+  color: #ff4444;
+  font-size: 14px;
+  display: none;
+}
 
-  .error-message {
-    color: #ff4444;
-    font-size: 14px;
-    display: none;
-  }
+.bmr-wrapper .error-message.active {
+  display: block;
+}
 
-  .error-message.active {
-    display: block;
-  }
-
-  .invalid {
-    border-color: #ff4444 !important;
-  }
+.bmr-wrapper .invalid {
+  border-color: #ff4444 !important;
+}
