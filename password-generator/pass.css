@@ -1,14 +1,3 @@
-/* =====================================================
-   HIDE UNWANTED BLOG / THEME ELEMENTS
-===================================================== */
-#comments,
-#respond,
-.comment-form,
-.title-wrap,
-.comments-title,
-.no-message {
-  display: none !important;
-}
 
 /* =====================================================
    RESET & GLOBAL
