@@ -1,41 +1,55 @@
 /* =====================================================
    HIDE UNWANTED BLOG / THEME ELEMENTS
 ===================================================== */
-        /* Form container */
-        .form-container {
-            max-width: 1100px;
-            width: 100%;
-            margin: 40 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
 
-        .form-title {
-            text-align: center;
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+/* Form container - centered with top/bottom margin */
+.form-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 40px auto;  /* Top/bottom 40px, auto left/right for centering */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
 
-        .divider {
-            height: 2px;
-            background-color: #ddd;
-            margin-bottom: 20px;
-        }
+/* Form title styling */
+.form-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+}
 
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
+/* Divider line */
+.divider {
+    height: 2px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+    width: 100%;
+}
 
-    .form-row label {
+/* Form row container */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Label styling */
+.form-row label {
     margin-left: 50px;     /* Align label with input box */
     margin-bottom: 5px;
     font-weight: 600;
+    font-family: Arial, sans-serif;
+    color: #555;
+    font-size: 14px;
 }
+
+/* Input and select field styling */
 .form-row input,
 .form-row select {
     width: 80%;                /* Reduced width by 20% */
@@ -44,22 +58,37 @@
     border: 2px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
-    margin-left: 50px;         /* Move all input/select boxes 20px to the right */
+    margin-left: 50px;         /* Move all input/select boxes 50px to the right */
+    font-family: Arial, sans-serif;
+    transition: border-color 0.3s ease;
 }
+
+/* Input hover and focus states */
+.form-row input:hover,
+.form-row select:hover {
+    border-color: #999;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
 /* Remove the calendar icon and add a blue dropdown arrow */
 .select-with-icon {
-    background-image: url("data:image/svg+xml,%3Csvg fill='blue' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");  /* Blue dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg fill='blue' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 20px 20px;
-    padding-right: 35px; /* Leave space for the icon */
-    appearance: none;    /* Hide default dropdown arrow */
+    padding-right: 35px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
-
-
-
-/* Align Download button to the right */
+/* Button styling */
 .form-row button {
     background-color: #4CAF50;
     color: white;
@@ -68,33 +97,194 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    align-self: flex-end;  /* Right-align within the flex column */
+    align-self: flex-end;
+    margin-right: 10%;  /* Align with input box right edge */
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
-      .form-row button:hover {
-    background-color: #007BFF;  /* Blue on hover */
-}
- 
- .form-row button:active {
-     transform: translateY(1px); /* Press effect */
- }
-/* Responsive layout */
-        @media (max-width: 768px) {
-            .form-container {
-                padding: 15px;
-            }
-            .form-title {
-                font-size: 22px;
-            }
-            select, input, button {
-                font-size: 14px;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .form-title {
-                font-size: 20px;
-            }
-            select, input, button {
-                font-size: 12px;
-            }
-        }
+/* Button hover state */
+.form-row button:hover {
+    background-color: #007BFF;
+}
+
+/* Button active state (pressed) */
+.form-row button:active {
+    transform: translateY(1px);
+}
+
+/* Button focus state */
+.form-row button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Placeholder text styling */
+::placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #999;
+}
+
+::-ms-input-placeholder {
+    color: #999;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+/* Tablet devices */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 15px;
+        margin: 40px 20px;  /* Keep vertical margin, add horizontal spacing */
+        max-width: calc(100% - 40px);
+    }
+    
+    .form-title {
+        font-size: 22px;
+    }
+    
+    .form-row input,
+    .form-row select,
+    .form-row button {
+        font-size: 14px;
+    }
+    
+    .form-row input,
+    .form-row select {
+        margin-left: 30px;  /* Reduce left margin on smaller screens */
+        width: calc(80% - 20px);
+    }
+    
+    .form-row label {
+        margin-left: 30px;
+    }
+    
+    .form-row button {
+        margin-right: calc(20% - 10px);
+        padding: 12px 18px;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 480px) {
+    .form-container {
+        margin: 40px 15px;  /* Keep vertical margin, minimal horizontal spacing */
+        padding: 12px;
+        max-width: calc(100% - 30px);
+    }
+    
+    .form-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    
+    .divider {
+        margin-bottom: 15px;
+    }
+    
+    .form-row {
+        margin-bottom: 12px;
+    }
+    
+    .form-row input,
+    .form-row select,
+    .form-row button {
+        font-size: 12px;
+    }
+    
+    .form-row input,
+    .form-row select {
+        margin-left: 20px;  /* Further reduce left margin */
+        width: calc(90% - 20px);  /* Wider on mobile */
+        padding: 12px;
+    }
+    
+    .form-row label {
+        margin-left: 20px;
+        font-size: 13px;
+    }
+    
+    .form-row button {
+        margin-right: 5%;
+        padding: 12px 16px;
+        align-self: center;  /* Center button on mobile */
+        width: 90%;
+    }
+    
+    /* Adjust select icon for mobile */
+    .select-with-icon {
+        background-size: 18px 18px;
+        padding-right: 30px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 320px) {
+    .form-container {
+        margin: 40px 10px;
+        padding: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .form-row input,
+    .form-row select {
+        margin-left: 15px;
+        width: calc(95% - 15px);
+        padding: 10px;
+    }
+    
+    .form-row label {
+        margin-left: 15px;
+        font-size: 12px;
+    }
+    
+    .form-row button {
+        width: 95%;
+        padding: 10px 14px;
+    }
+}
+
+/* =====================================================
+   PRINT STYLES
+===================================================== */
+@media print {
+    .form-container {
+        box-shadow: none;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+    }
+    
+    .form-row button {
+        display: none;
+    }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .form-row input,
+    .form-row select,
+    .form-row button {
+        transition: none;
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    .form-row button {
+        border: 2px solid ButtonText;
+    }
+    
+    .form-row input,
+    .form-row select {
+        border: 2px solid ButtonText;
+    }
+}
