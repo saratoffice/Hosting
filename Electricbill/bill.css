@@ -1,15 +1,6 @@
 /* =====================================================
    HIDE UNWANTED BLOG / THEME ELEMENTS
 ===================================================== */
-#comments,
-#respond,
-.comment-form,
-.title-wrap,
-.comments-title,
-.no-message {
-display: none !important;
-}
-
         /* Form container */
         .form-container {
             max-width: 1100px;
