@@ -1,0 +1,152 @@
+
+<!-- Custom Styling -->
+<style>
+  /* Header Styling */
+  #pdfTable thead th {
+    background-color: #101535;
+    color: #ffffff;
+    font-weight: bold;
+    border-bottom: 2px solid #b20bb3;
+  }
+
+  /* Row hover */
+  #pdfTable tbody tr:hover td {
+    background-color: #e6f9db;
+  }
+
+  /* Table layout */
+  #pdfTable {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+  }
+
+  #pdfTable th, #pdfTable td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  #pdfTable td:last-child {
+    text-align: right;
+  }
+
+  /* Download Button */
+  .download-btn {
+    padding: 6px 14px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  .download-btn:hover {
+    background-color: #e615ed;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(230, 21, 237, 0.4);
+  }
+
+  /* Responsive tweaks */
+  @media only screen and (max-width: 768px) {
+    #pdfTable, #pdfTable thead, #pdfTable tbody, #pdfTable th, #pdfTable td, #pdfTable tr {
+      display: block;
+      width: 100%;
+    }
+
+    #pdfTable thead {
+      display: none;
+    }
+
+    #pdfTable tr {
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    #pdfTable td {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    #pdfTable td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #555;
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    #pdfTable td:last-child {
+      justify-content: flex-end;
+    }
+  }
+</style>
+<div id="downloads">
+
+  <!-- DataTables & PapaParse -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <table id="pdfTable" class="display" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>Letter No.</th>
+        <th>Date</th>
+        <th>Subject</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+</div>
+
+<!-- JavaScript to Load and Display CSV -->
+<script>
+Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBx2QFmcm79K2dkyShsmZEV490KKtEMIYIrzG7HrxAw1Z5AxPFHzvoFhKNdOigjRnb7VAbrSpUPtII/pub?output=csv", {
+  download: true,
+  header: true,
+  complete: function(results) {
+    const tableBody = document.querySelector("#pdfTable tbody");
+
+    results.data.forEach(row => {
+      if (!row["S.N."] || !row["Subject"]) return;
+
+      const match = row["Link"]?.match(/id=([a-zA-Z0-9_-]+)/);
+      const fileId = match ? match[1] : null;
+
+      const downloadLink = fileId
+        ? `https://saratoffice.in/download.php?id=${row["S.N."]}`
+        : "#";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row["S.N."]}</td>
+        <td>${row["Letter No."] || "-"}</td>
+        <td>${row["Date"] || "-"}</td>
+        <td>${row["Subject"]}</td>
+        <td><a href="${downloadLink}" target="_blank"><button class="download-btn">Download</button></a></td>
+      `;
+      tableBody.appendChild(tr);
+    });
+
+    // Initialize DataTables after population
+    $('#pdfTable').DataTable({
+      responsive: true,
+      paging: true,
+      searching: true,
+      info: true,
+      ordering: true
+    });
+  }
+});
+</script>
