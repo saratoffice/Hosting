@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duo password generators · classic + sentence-style</title>
+    <style>
+        /* =====================================================
+           RESET & GLOBAL
+        ===================================================== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Arial, sans-serif;
+            background: #f0f2f5;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        /* =====================================================
+           DUAL LAYOUT WRAPPER
+        ===================================================== */
+        .password-dashboard {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .password-column {
+            flex: 1 1 400px;
+            min-width: 300px;
+        }
+
+        /* =====================================================
+           CONTAINERS
+        ===================================================== */
+        .password-generator-container,
+        .sentence-generator-container {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 28px 24px;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =====================================================
+           TITLES
+        ===================================================== */
+        .password-generator-container h1,
+        .sentence-generator-container h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 26px;
+            font-size: clamp(22px, 5vw, 32px);
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           PASSWORD DISPLAY (shared)
+        ===================================================== */
+        .password-display,
+        .sentence-preview {
+            background-color: #f7f7f7;
+            padding: 14px 16px;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .password-text {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: clamp(14px, 4vw, 18px);
+            color: #333333;
+            word-break: break-all;
+        }
+
+        /* =====================================================
+           COPY BUTTON & TOOLTIP
+        ===================================================== */
+        .copy-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            position: relative;
+        }
+
+        .copy-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #555;
+            transition: stroke 0.2s;
+        }
+
+        .copy-btn:hover svg {
+            stroke: #003049;
+        }
+
+        .tooltip {
+            position: absolute;
+            right: 0;
+            bottom: 110%;
+            background-color: #333333;
+            padding: 6px 10px;
+            color: #ffffff;
+            border-radius: 6px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        /* =====================================================
+           STRENGTH METER
+        ===================================================== */
+        .strength-text {
+            text-align: right;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .strength-meter {
+            height: 10px;
+            background-color: #dddddd;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .strength-meter-fill {
+            height: 100%;
+            width: 30%;
+            border-radius: 6px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* =====================================================
+           IMPROVED CHECKBOX STYLES - Better visual design
+        ===================================================== */
+        .password-options {
+            margin-bottom: 24px;
+        }
+
+        .option-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e9eef2;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background-color: #f0f4f9;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 48, 73, 0.08);
+        }
+
+        .option-item label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Custom checkbox */
+        .option-item input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: white;
+            margin: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .option-item input[type="checkbox"]:checked {
+            background-color: #003049;
+            border-color: #003049;
+            transform: scale(0.95);
+        }
+
+        .option-item input[type="checkbox"]:checked::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 45%;
+            width: 14px;
+            height: 7px;
+            border: 2px solid #ffffff;
+            border-top: none;
+            border-right: none;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .option-item input[type="checkbox"]:hover {
+            border-color: #003049;
+            background-color: #f0f7ff;
+            box-shadow: 0 4px 8px rgba(0, 48, 73, 0.15);
+        }
+
+        .option-item input[type="checkbox"]:focus {
+            outline: 2px solid rgba(0, 48, 73, 0.2);
+            outline-offset: 2px;
+        }
+
+        .option-item input[type="checkbox"]:active {
+            transform: scale(0.9);
+        }
+
+        /* Icons for labels */
+        .option-item label::before {
+            font-size: 16px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            width: 24px;
+            display: inline-block;
+        }
+
+        .option-item:nth-child(2) label::before {
+            content: "⬆️";
+        }
+
+        .option-item:nth-child(3) label::before {
+            content: "⬇️";
+        }
+
+        .option-item:nth-child(4) label::before {
+            content: "🔢";
+        }
+
+        .option-item:nth-child(5) label::before {
+            content: "✨";
+        }
+
+        .option-item:hover label::before {
+            opacity: 1;
+        }
+
+        /* =====================================================
+           LENGTH SLIDER
+        ===================================================== */
+        .length-value {
+            font-weight: 700;
+            color: #333333;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 12px 0;
+            height: 6px;
+            background: #dddddd;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #003049;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #001520;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: #003049;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        /* =====================================================
+           SENTENCE INPUT AREA
+        ===================================================== */
+        .sentence-input-area {
+            margin-bottom: 24px;
+        }
+
+        .sentence-input-area label {
+            font-size: 15px;
+            color: #555555;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .sentence-input-area input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f7f7f7;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        .sentence-input-area input:focus {
+            border-color: #003049;
+            outline: none;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(0, 48, 73, 0.1);
+        }
+
+        /* =====================================================
+           RADIO OPTIONS (for sentence generator)
+        ===================================================== */
+        .sentence-options {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px solid #e9eef2;
+        }
+
+        .sentence-options .option-item {
+            background-color: transparent;
+            border: none;
+            padding: 6px 8px;
+            margin-bottom: 8px;
+        }
+
+        .sentence-options .option-item:hover {
+            background-color: #f0f4f9;
+            transform: none;
+            box-shadow: none;
+        }
+
+        input[type="radio"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+
+        input[type="radio"]:checked {
+            border-color: #003049;
+            background-color: #003049;
+            transform: scale(0.95);
+        }
+
+        input[type="radio"]:checked::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input[type="radio"]:hover {
+            border-color: #003049;
+            box-shadow: 0 0 0 3px rgba(0, 48, 73, 0.1);
+        }
+
+        /* =====================================================
+           GENERATE BUTTON
+        ===================================================== */
+        .generate-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #003049;
+            color: #ffffff;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            letter-spacing: 0.5px;
+        }
+
+        .generate-btn:hover {
+            background-color: #001520;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 48, 73, 0.2);
+        }
+
+        .generate-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        /* =====================================================
+           SMALL SCREENS (≤ 480px)
+        ===================================================== */
+        @media (max-width: 480px) {
+            .password-generator-container,
+            .sentence-generator-container {
+                padding: 22px 18px;
+            }
+
+            .option-item {
+                padding: 12px 16px;
+            }
+            
+            .option-item label {
+                font-size: 16px;
+            }
+            
+            .option-item input[type="checkbox"] {
+                width: 28px;
+                height: 28px;
+            }
+
+            .strength-text {
+                text-align: left;
+            }
+
+            .sentence-options .option-item {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="password-dashboard">
+        <!-- Left column: Classic password generator -->
+        <div class="password-column">
+            <div class="password-generator-container">
+                <h1>🔐 Classic Generator</h1>
+
+                <div class="password-display">
+                    <span class="password-text" id="classicPasswordDisplay">SQ0||tSg6@MF</span>
+                    <button class="copy-btn" id="classicCopyBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                        <span class="tooltip" id="classicTooltip">Copied!</span>
+                    </button>
+                </div>
+
+                <div class="strength-text" id="classicStrengthLabel">Strength: Strong</div>
+                <div class="strength-meter">
+                    <div id="classicStrengthMeter" class="strength-meter-fill" style="width:30%; background-color:#0bbe65;"></div>
+                </div>
+
+                <div class="password-options" id="classicOptions">
+                    <div class="option-item">
+                        <label for="lengthSlider">Password Length:</label>
+                        <span id="lengthValue" class="length-value">12</span>
+                    </div>
+                    
+                    <input id="lengthSlider" type="range" min="4" max="32" value="12">
+
+                    <div class="option-item">
+                        <label for="uppercaseCheck">Include Uppercase</label>
+                        <input type="checkbox" checked id="uppercaseCheck">
+                    </div>
+                    
+                    <div class="option-item">
+                        <label for="lowercaseCheck">Include Lowercase</label>
+                        <input type="checkbox" checked id="lowercaseCheck">
+                    </div>
+                    
+                    <div class="option-item">
+                        <label for="numbersCheck">Include Numbers</label>
+                        <input type="checkbox" checked id="numbersCheck">
+                    </div>
+                    
+                    <div class="option-item">
+                        <label for="symbolsCheck">Include Symbols</label>
+                        <input type="checkbox" checked id="symbolsCheck">
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="classicGenerateBtn">Generate Password</button>
+            </div>
+        </div>
+
+        <!-- Right column: Sentence-based password generator -->
+        <div class="password-column">
+            <div class="sentence-generator-container">
+                <h1>🧠 Sentence → Password</h1>
+
+                <div class="sentence-input-area">
+                    <label for="sentenceInput">Your sentence (e.g., "I love secure passwords")</label>
+                    <input type="text" id="sentenceInput" placeholder="Type a phrase..." value="Hello world this is fun">
+                </div>
+
+                <div class="sentence-options">
+                    <div class="option-item">
+                        <label for="leetRadio">🔡 Leetspeak (1337)</label>
+                        <input type="radio" name="sentenceMode" id="leetRadio" value="leet" checked>
+                    </div>
+                    <div class="option-item">
+                        <label for="mneRadio">🧩 Mnemonics (first letters)</label>
+                        <input type="radio" name="sentenceMode" id="mneRadio" value="mnemonic">
+                    </div>
+                    <div class="option-item">
+                        <label for="acroRadio">✂️ Acronym (initials)</label>
+                        <input type="radio" name="sentenceMode" id="acroRadio" value="acronym">
+                    </div>
+                </div>
+
+                <div class="sentence-preview">
+                    <span class="password-text" id="sentencePasswordOutput">H0w7d1sf</span>
+                    <button class="copy-btn" id="sentenceCopyBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                        <span class="tooltip" id="sentenceTooltip">Copied!</span>
+                    </button>
+                </div>
+
+                <div class="strength-text" id="sentenceStrengthLabel">Strength: Moderate</div>
+                <div class="strength-meter">
+                    <div id="sentenceStrengthMeter" class="strength-meter-fill" style="width:40%; background-color:#26de81;"></div>
+                </div>
+
+                <button class="generate-btn" id="sentenceGenerateBtn">Generate from Sentence</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ========== CLASSIC GENERATOR ==========
+            const lengthSlider = document.getElementById("lengthSlider");
+            const lengthValue = document.getElementById("lengthValue");
+            const classicCheckboxes = document.querySelectorAll("#classicOptions input[type='checkbox']");
+            const classicGenerateBtn = document.getElementById("classicGenerateBtn");
+            const classicPasswordDisplay = document.getElementById("classicPasswordDisplay");
+            const classicStrengthMeter = document.getElementById("classicStrengthMeter");
+            const classicStrengthText = document.getElementById("classicStrengthLabel");
+            const classicCopyBtn = document.getElementById("classicCopyBtn");
+            const classicTooltip = document.getElementById("classicTooltip");
+
+            const charSets = {
+                uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                lowercase: "abcdefghijklmnopqrstuvwxyz",
+                numbers: "0123456789",
+                symbols: "!@#$%^&*()_+-=[]{}|;:,.<>?",
+            };
+
+            // Update length display
+            if (lengthSlider) {
+                lengthSlider.addEventListener("input", () => {
+                    lengthValue.textContent = lengthSlider.value;
+                });
+            }
+
+            // Generate classic password
+            const generateClassicPassword = () => {
+                const length = parseInt(lengthSlider.value);
+                const selectedSets = [...classicCheckboxes]
+                    .filter((cb) => cb.checked)
+                    .map((cb) => charSets[cb.id.replace("Check", "")]);
+
+                if (!selectedSets.length) {
+                    alert("Please select at least one character type.");
+                    return;
+                }
+
+                // Ensure at least one char from each set
+                let password = selectedSets.map(set => set[Math.floor(Math.random() * set.length)]).join("");
+                const allChars = selectedSets.join("");
+                
+                for (let i = password.length; i < length; i++) {
+                    password += allChars[Math.floor(Math.random() * allChars.length)];
+                }
+
+                // Fisher-Yates shuffle
+                let arr = password.split('');
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                
+                password = arr.join('');
+                classicPasswordDisplay.textContent = password;
+                calculateClassicStrength(password);
+            };
+
+            // Calculate strength for classic
+            const calculateClassicStrength = (password) => {
+                let strength = 0;
+                const len = password.length;
+                
+                // Length scoring
+                if (len >= 8) strength += 1;
+                if (len >= 12) strength += 1;
+                if (len >= 16) strength += 1;
+                if (len >= 20) strength += 1;
+
+                // Character variety
+                const hasUpper = /[A-Z]/.test(password);
+                const hasLower = /[a-z]/.test(password);
+                const hasNumber = /[0-9]/.test(password);
+                const hasSymbol = /[^A-Za-z0-9]/.test(password);
+                const varietyCount = [hasUpper, hasLower, hasNumber, hasSymbol].filter(Boolean).length;
+                strength += varietyCount;
+
+                // Penalties for short passwords
+                if (len < 6) strength = Math.min(strength, 2);
+                if (len < 8 && varietyCount < 3) strength = Math.min(strength, 3);
+
+                const strengthPercentage = Math.min((strength / 8) * 100, 100);
+                let color, strengthLabel;
+                
+                if (strengthPercentage <= 20) { 
+                    strengthLabel = "Very Weak"; 
+                    color = "#ff4757"; 
+                } else if (strengthPercentage <= 40) { 
+                    strengthLabel = "Weak"; 
+                    color = "#ffa502"; 
+                } else if (strengthPercentage <= 70) { 
+                    strengthLabel = "Moderate"; 
+                    color = "#26de81"; 
+                } else { 
+                    strengthLabel = "Strong"; 
+                    color = "#0bbe65"; 
+                }
+
+                classicStrengthMeter.style.width = `${strengthPercentage}%`;
+                classicStrengthMeter.style.backgroundColor = color;
+                classicStrengthText.textContent = `Strength: ${strengthLabel}`;
+            };
+
+            // Event listeners for classic
+            classicGenerateBtn.addEventListener("click", generateClassicPassword);
+            
+            classicCheckboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    if ([...classicCheckboxes].some(c => c.checked)) {
+                        generateClassicPassword();
+                    }
+                });
+            });
+            
+            lengthSlider.addEventListener('change', generateClassicPassword);
+            
+            // Copy for classic
+            classicCopyBtn.addEventListener("click", () => {
+                navigator.clipboard.writeText(classicPasswordDisplay.textContent).then(() => {
+                    classicTooltip.classList.add("visible");
+                    setTimeout(() => classicTooltip.classList.remove("visible"), 2000);
+                }).catch(() => alert('Failed to copy'));
+            });
+
+            // ========== SENTENCE GENERATOR ==========
+            const sentenceInput = document.getElementById("sentenceInput");
+            const leetRadio = document.getElementById("leetRadio");
+            const mneRadio = document.getElementById("mneRadio");
+            const acroRadio = document.getElementById("acroRadio");
+            const sentencePasswordOutput = document.getElementById("sentencePasswordOutput");
+            const sentenceStrengthMeter = document.getElementById("sentenceStrengthMeter");
+            const sentenceStrengthLabel = document.getElementById("sentenceStrengthLabel");
+            const sentenceGenerateBtn = document.getElementById("sentenceGenerateBtn");
+            const sentenceCopyBtn = document.getElementById("sentenceCopyBtn");
+            const sentenceTooltip = document.getElementById("sentenceTooltip");
+
+            // Leet mapping
+            const leetMap = {
+                'a':'4', 'A':'4', 'e':'3', 'E':'3', 'i':'1', 'I':'1', 'o':'0', 'O':'0',
+                's':'5', 'S':'5', 't':'7', 'T':'7', 'b':'8', 'B':'8', 'g':'9', 'G':'9',
+                'z':'2', 'Z':'2', 'l':'1', 'L':'1', 'c':'(', 'C':'(', 'd':'|)', 'D':'|)'
+            };
+
+            function toLeet(text) {
+                return text.split('').map(ch => leetMap[ch] || ch).join('');
+            }
+
+            function toMnemonics(text) {
+                return text.split(/\s+/).filter(w => w.length > 0).map(w => w[0]).join('');
+            }
+
+            function toAcronym(text) {
+                return text.split(/\s+/).filter(w => w.length > 0).map(w => w[0].toUpperCase()).join('');
+            }
+
+            // Calculate strength for sentence password (same formula)
+            const calculateSentenceStrength = (password) => {
+                let strength = 0;
+                const len = password.length;
+                
+                if (len >= 8) strength += 1;
+                if (len >= 12) strength += 1;
+                if (len >= 16) strength += 1;
+                if (len >= 20) strength += 1;
+
+                const hasUpper = /[A-Z]/.test(password);
+                const hasLower = /[a-z]/.test(password);
+                const hasNumber = /[0-9]/.test(password);
+                const hasSymbol = /[^A-Za-z0-9]/.test(password);
+                const varietyCount = [hasUpper, hasLower, hasNumber, hasSymbol].filter(Boolean).length;
+                strength += varietyCount;
+
+                if (len < 6) strength = Math.min(strength, 2);
+                if (len < 8 && varietyCount < 3) strength = Math.min(strength, 3);
+
+                const strengthPercentage = Math.min((strength / 8) * 100, 100);
+                let color, strengthLabel;
+                
+                if (strengthPercentage <= 20) { 
+                    strengthLabel = "Very Weak"; 
+                    color = "#ff4757"; 
+                } else if (strengthPercentage <= 40) { 
+                    strengthLabel = "Weak"; 
+                    color = "#ffa502"; 
+                } else if (strengthPercentage <= 70) { 
+                    strengthLabel = "Moderate"; 
+                    color = "#26de81"; 
+                } else { 
+                    strengthLabel = "Strong"; 
+                    color = "#0bbe65"; 
+                }
+
+                sentenceStrengthMeter.style.width = `${strengthPercentage}%`;
+                sentenceStrengthMeter.style.backgroundColor = color;
+                sentenceStrengthLabel.textContent = `Strength: ${strengthLabel}`;
+            };
+
+            // Generate sentence-based password
+            const generateSentencePassword = () => {
+                const sentence = sentenceInput.value.trim();
+                if (!sentence) {
+                    alert("Please enter a sentence.");
+                    return;
+                }
+
+                let password = '';
+                if (leetRadio.checked) {
+                    password = toLeet(sentence);
+                } else if (mneRadio.checked) {
+                    password = toMnemonics(sentence);
+                } else if (acroRadio.checked) {
+                    password = toAcronym(sentence);
+                }
+
+                if (!password) password = '?';
+                sentencePasswordOutput.textContent = password;
+                calculateSentenceStrength(password);
+            };
+
+            // Event listeners for sentence generator
+            sentenceGenerateBtn.addEventListener("click", generateSentencePassword);
+            
+            leetRadio.addEventListener('change', generateSentencePassword);
+            mneRadio.addEventListener('change', generateSentencePassword);
+            acroRadio.addEventListener('change', generateSentencePassword);
+            sentenceInput.addEventListener('change', generateSentencePassword);
+            
+            // Copy for sentence
+            sentenceCopyBtn.addEventListener("click", () => {
+                navigator.clipboard.writeText(sentencePasswordOutput.textContent).then(() => {
+                    sentenceTooltip.classList.add("visible");
+                    setTimeout(() => sentenceTooltip.classList.remove("visible"), 2000);
+                }).catch(() => alert('Failed to copy'));
+            });
+
+            // Initial generation for both
+            document.addEventListener('DOMContentLoaded', () => {
+                generateClassicPassword();
+                generateSentencePassword();
+            });
+        })();
+    </script>
+</body>
+</html>
