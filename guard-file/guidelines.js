@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTagonyub0K84Tg9xZVxeLhQ8rfb417bTqKwSP3xzhkQ5mbnZY6mOFFdB6kK8Hl0EZtYY7t3e8qd-kO/pub?output=csv';
+  const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTagonyub0K84Tg9xZVxeLhQ8rfb417bTqKwSP3xzhkQ5mbnZY6mOFFdB6kK8Hl0EZtYY7t3e8qd-kO/pub?gid=51131841&single=true&output=csv';
 
   Papa.parse(csvUrl, {
     download: true,
